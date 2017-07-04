@@ -1,29 +1,24 @@
 ;;;;;;;;;;;;;;;;;;;;
 ;; Emacs settings ;;
 ;;;;;;;;;;;;;;;;;;;;
-
-;; misc
+           
+;; Misc settings
 (tool-bar-mode -1)                  ; hide toolbar
 (global-linum-mode 1)               ; show line numbers
 (defalias 'yes-or-no-p 'y-or-n-p)   ; y or n should suffice
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
-;; Set meta key to CMD if OSX 
-(setq mac-command-modifier 'super)
-(setq mac-option-modifier 'meta)
-  (if (eq system-type 'darwin)
-      (progn
-        (setq mac-command-modifier 'meta)
-        (setq mac-option-modifier 'super)
-        (message "Command is now bound to META and Option is bound to SUPER.")))
+;; Initial frame size
+(setq initial-frame-alist
+      '((top . 0)
+	(left . 0)
+	(width . 110)
+	(height . 81)))
 
-(global-set-key (kbd "C-c w") 'swap-meta-and-super)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Procedure definitions ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
 
 ;; Open init
 (defun find-user-init-file()
@@ -33,7 +28,7 @@
 
 (global-set-key (kbd "C-c i") 'find-user-init-file)
 
-;; Comment or uncomment
+;; Comment or uncomment region
 (defun comment-or-uncomment-region-or-line ()
   "Comments or uncomments the region or the current line if there's no active region."
   (interactive)
