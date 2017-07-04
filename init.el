@@ -1,16 +1,31 @@
 ;;;;;;;;;;;;;;;;;;;;
 ;; Emacs settings ;;
 ;;;;;;;;;;;;;;;;;;;;
+
+;; misc
 (tool-bar-mode -1)                  ; hide toolbar
 (global-linum-mode 1)               ; show line numbers
 (defalias 'yes-or-no-p 'y-or-n-p)   ; y or n should suffice
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
+;; Set meta key to CMD if OSX 
+(setq mac-command-modifier 'super)
+(setq mac-option-modifier 'meta)
+  (if (eq system-type 'darwin)
+      (progn
+        (setq mac-command-modifier 'meta)
+        (setq mac-option-modifier 'super)
+        (message "Command is now bound to META and Option is bound to SUPER.")))
+
+(global-set-key (kbd "C-c w") 'swap-meta-and-super)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Procedure definitions ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-; Open init
+
+
+;; Open init
 (defun find-user-init-file()
   "Edit the `user-init-file', in another window."
   (interactive)
@@ -18,7 +33,7 @@
 
 (global-set-key (kbd "C-c i") 'find-user-init-file)
 
-; Comment or uncomment
+;; Comment or uncomment
 (defun comment-or-uncomment-region-or-line ()
   "Comments or uncomments the region or the current line if there's no active region."
   (interactive)
@@ -31,7 +46,7 @@
 (global-set-key (kbd "s-/") 'comment-or-uncomment-region-or-line)
 
 
-; package
+;; package
 (require 'package)
 (add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/"))
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -40,7 +55,7 @@
 (setq package-enable-at-startup nil)
 (package-initialize)
 
-; use-package
+;; use-package
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
@@ -48,7 +63,7 @@
 (eval-when-compile
   (require 'use-package))
 
-; Theme
+;; Theme
 (use-package spacemacs-theme
   :ensure t
   :init)
@@ -57,14 +72,14 @@
 ;; Configure Packages ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;
 
-; Evil
+;; Evil
 (use-package evil
      :ensure t
      :init
      :config
      (evil-mode t))
 
-; Neo Tree
+;; Neo Tree
 (require 'use-package)
 (use-package neotree
   :ensure t
@@ -81,7 +96,7 @@
               (define-key evil-normal-state-local-map (kbd "q") 'neotree-hide)
               (define-key evil-normal-state-local-map (kbd "RET") 'neotree-enter)))
 
-; Helm
+;; Helm
 (use-package helm
   :ensure t
   :config
@@ -109,15 +124,15 @@
   (setq magit-diff-paint-whitespace t)
 (setq magit-diff-highlight-trailing t))
 
-; Smooth Scrolling
+;; Smooth Scrolling
 (use-package smooth-scrolling
   :ensure t)
 
-; Powerline
+;; Powerline
 (use-package powerline
   :ensure t)
 
-; fly-check
+;; fly-check
 (use-package flycheck
   :ensure t
   :init (global-flycheck-mode))
