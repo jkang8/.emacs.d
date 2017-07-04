@@ -3,10 +3,11 @@
 ;;;;;;;;;;;;;;;;;;;;
            
 ;; Misc settings
-(tool-bar-mode -1)                  ; hide toolbar
-(toggle-scroll-bar -1) 
-(global-linum-mode 1)               ; show line numbers
-(defalias 'yes-or-no-p 'y-or-n-p)   ; y or n should suffice
+(tool-bar-mode -1)
+(toggle-scroll-bar -1)
+(global-linum-mode 1)
+(global-hl-line-mode 1)
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 (add-hook 'after-init-hook #'global-flycheck-mode)
 (fringe-mode 8)
@@ -16,6 +17,9 @@
 	(left . 0)
 	(width . 110)
 	(height . 81)))
+
+;; Font settings
+(set-default-font "-*-Hack-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
 
 ;; package
 (require 'package)
@@ -42,6 +46,14 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Procedure definitions ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Reload config
+(defun reload-config()
+  "Reload config"
+  (interactive)
+  (load-file "~/.emacs.d/init.el"))
+
+(global-set-key (kbd "s-r") 'reload-config)
 
 ;; Open init
 (defun find-user-init-file()
@@ -153,7 +165,9 @@
 
 ;; Smooth Scrolling
 (use-package smooth-scrolling
-  :ensure t)
+  :ensure t
+  :config
+  (smooth-scrolling-mode 1))
 
 ;; Powerline
 (use-package powerline
