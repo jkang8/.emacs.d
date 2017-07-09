@@ -35,8 +35,15 @@
       (width . 110)
       (height . 81)))
 
+;; Clipboard settings
+(setq save-interprogram-paste-before-kill t)
+(setq x-select-enable-clipboard nil)
+
 ;; Font settings
-(set-frame-font "-*-Hack-normal-normal-normal-*-12-*-*-*-m-0-iso10646-1")
+(set-frame-font "-*-Hack-normal-normal-normal-*-14-*-*-*-m-0-iso10646-1")
+
+;; Shell settings
+(setq explicit-shell-file-name "/bin/zsh")
 
 ;; package
 (require 'package)
@@ -144,6 +151,8 @@
     (evil-leader/set-key "t" #'neotree-toggle)
     (evil-leader/set-key "<SPC>" #'keyboard-quit)
     (evil-leader/set-key "mf" #'make-frame)
+    (evil-leader/set-key "hs" #'helm-swoop)
+    (evil-leader/set-key "I" #'indent-region)
   ))
 
 ;; evil
@@ -159,6 +168,9 @@
   :init
   :config
   (yas-global-mode t))
+
+(add-hook 'term-mode-hook (lambda()
+        (setq yas-dont-activate-functions t)))
 
 ;; org-mode
 (use-package org-mode
@@ -212,6 +224,11 @@
   (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action)
 (define-key helm-map (kbd "C-z") 'helm-select-action))
 
+;; helm-swoop
+(use-package helm-swoop
+  :ensure t
+  :config
+)
 ;; Projectile
 (use-package projectile
   :ensure t
@@ -280,6 +297,34 @@
 )
 (setq venv-location '("~/Flvid"))
 
+;; Javascript
+(use-package js2-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)
+))
+
+(use-package tern
+  :ensure t
+  :init
+  (progn
+    (add-to-list 'load-path "~/.emacs.d/tern/emacs/")
+    (autoload 'tern-mode "tern.el" nil t)
+
+    (use-package company-tern
+    :ensure t
+    :config
+    (add-to-list 'company-backends 'company-tern))
+  )
+)
+
+;; Golang
+(use-package go-mode
+  :ensure t
+  :init
+)
+
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -297,7 +342,7 @@
  '(flycheck-color-mode-line-face-to-color (quote mode-line-buffer-id))
  '(package-selected-packages
    (quote
-    (virtualenvwrapper importmagic nyan-mode spaceline spaceline-config evil-leader gruvbox auto-complete org-mode powerline neotree use-package spacemacs-theme smooth-scrolling projectile magit helm evil dockerfile-mode)))
+    (helm-swoop go-mode company-tern tern virtualenvwrapper importmagic nyan-mode spaceline spaceline-config evil-leader gruvbox auto-complete org-mode powerline neotree use-package spacemacs-theme smooth-scrolling projectile magit helm evil dockerfile-mode)))
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
    (quote
